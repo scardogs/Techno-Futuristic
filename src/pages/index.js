@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import {
   Box,
@@ -7,10 +8,30 @@ import {
   SimpleGrid,
   Text,
   VStack,
-  Input,
+  Image,
+  Skeleton,
+  SkeletonText,
 } from "@chakra-ui/react";
 
 export default function Home() {
+  const [specials, setSpecials] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadSpecials() {
+      try {
+        const res = await fetch("/api/content?type=special");
+        const data = await res.json();
+        setSpecials(data.slice(0, 3)); // Show only first 3
+      } catch (e) {
+        console.error("Failed to load specials:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadSpecials();
+  }, []);
+
   return (
     <>
       <Head>
@@ -83,21 +104,59 @@ export default function Home() {
             Featured Drinks
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-            {["Neon Latte", "Quantum Espresso", "Aurora Tonic"].map((n) => (
-              <Box
-                key={n}
-                p={6}
-                borderRadius="16px"
-                border="1px solid"
-                borderColor="whiteAlpha.200"
-                bgGradient="linear(to-br, rgba(0,194,255,0.08), rgba(155,92,255,0.08))"
-              >
-                <Heading size="md">{n}</Heading>
-                <Text mt={2} color="gray.400">
-                  Limited release. Ask your barista.
-                </Text>
-              </Box>
-            ))}
+            {loading
+              ? Array(3)
+                  .fill(0)
+                  .map((_, i) => (
+                    <Box
+                      key={i}
+                      p={6}
+                      borderRadius="16px"
+                      border="1px solid"
+                      borderColor="whiteAlpha.200"
+                      bgGradient="linear(to-br, rgba(0,194,255,0.08), rgba(155,92,255,0.08))"
+                    >
+                      <Skeleton height="20px" mb={2} />
+                      <SkeletonText mt="2" noOfLines={1} />
+                    </Box>
+                  ))
+              : specials.length > 0
+              ? specials.map((special) => (
+                  <Box
+                    key={special._id}
+                    p={6}
+                    borderRadius="16px"
+                    border="1px solid"
+                    borderColor="whiteAlpha.200"
+                    bgGradient="linear(to-br, rgba(0,194,255,0.08), rgba(155,92,255,0.08))"
+                  >
+                    <Heading size="md">{special.title}</Heading>
+                    <Text mt={2} color="gray.400">
+                      {special.description ||
+                        "Limited release. Ask your barista."}
+                    </Text>
+                    {special.price && (
+                      <Text mt={2} color="brand.400" fontWeight="semibold">
+                        {special.price}
+                      </Text>
+                    )}
+                  </Box>
+                ))
+              : ["Neon Latte", "Quantum Espresso", "Aurora Tonic"].map((n) => (
+                  <Box
+                    key={n}
+                    p={6}
+                    borderRadius="16px"
+                    border="1px solid"
+                    borderColor="whiteAlpha.200"
+                    bgGradient="linear(to-br, rgba(0,194,255,0.08), rgba(155,92,255,0.08))"
+                  >
+                    <Heading size="md">{n}</Heading>
+                    <Text mt={2} color="gray.400">
+                      Limited release. Ask your barista.
+                    </Text>
+                  </Box>
+                ))}
           </SimpleGrid>
         </Box>
 
@@ -129,66 +188,6 @@ export default function Home() {
           </SimpleGrid>
         </Box>
 
-        <Box>
-          <Heading size="lg" mb={4}>
-            Weekly Specials
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-            {[
-              { t: "Chromatic Mocha", d: "Single‑origin cacao, cyan zest" },
-              { t: "Ion Drift Matcha", d: "Ceremonial, yuzu mist" },
-              { t: "Phase‑Shift Chai", d: "Cardamom, star anise, neon honey" },
-            ].map((sp) => (
-              <Box
-                key={sp.t}
-                p={6}
-                borderRadius="16px"
-                border="1px solid"
-                borderColor="whiteAlpha.200"
-                bg="rgba(255,255,255,0.03)"
-              >
-                <Heading size="md">{sp.t}</Heading>
-                <Text mt={2} color="gray.400">
-                  {sp.d}
-                </Text>
-                <Button mt={4} size="sm" variant="neon">
-                  Try now
-                </Button>
-              </Box>
-            ))}
-          </SimpleGrid>
-        </Box>
-
-        <Box>
-          <Heading size="lg" mb={4}>
-            What Guests Say
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-            {[
-              { q: "The focus vibes are unreal.", a: "— Mira, Designer" },
-              { q: "Best espresso clarity in town.", a: "— Ken, Barista" },
-              {
-                q: "Feels like coding in a sci‑fi film.",
-                a: "— Ravi, Engineer",
-              },
-            ].map((t) => (
-              <Box
-                key={t.q}
-                p={6}
-                borderRadius="16px"
-                border="1px solid"
-                borderColor="whiteAlpha.200"
-                bg="rgba(255,255,255,0.02)"
-              >
-                <Text color="gray.200">“{t.q}”</Text>
-                <Text mt={2} color="gray.500">
-                  {t.a}
-                </Text>
-              </Box>
-            ))}
-          </SimpleGrid>
-        </Box>
-
         <Box
           borderRadius="16px"
           border="1px solid"
@@ -207,7 +206,18 @@ export default function Home() {
               <Text color="gray.300">Weekly specials, events, and drops.</Text>
             </Box>
             <HStack>
-              <Input placeholder="you@neoncafe.com" maxW="260px" />
+              <input
+                placeholder="you@neoncafe.com"
+                style={{
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: "8px",
+                  padding: "8px 12px",
+                  color: "white",
+                  maxWidth: "260px",
+                  width: "100%",
+                }}
+              />
               <Button variant="solid">Subscribe</Button>
             </HStack>
           </HStack>

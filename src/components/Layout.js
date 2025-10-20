@@ -22,6 +22,7 @@ const navItems = [
   { label: "Gallery", href: "/gallery" },
   { label: "Reservations", href: "/reservations" },
   { label: "Contact", href: "/contact" },
+  { label: "Admin", href: "/admin" },
 ];
 
 export default function Layout({ children }) {
