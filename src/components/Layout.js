@@ -27,7 +27,12 @@ const navItems = [
 
 export default function Layout({ children }) {
   return (
-    <Box minH="100dvh" position="relative">
+    <Box
+      minH="100dvh"
+      position="relative"
+      display="flex"
+      flexDirection="column"
+    >
       <NeonGrid />
 
       <Box
@@ -39,6 +44,7 @@ export default function Layout({ children }) {
         borderColor="whiteAlpha.200"
         backdropFilter="blur(8px)"
         bg="rgba(10,12,16,0.6)"
+        flexShrink={0}
       >
         <Container maxW="6xl" py={4}>
           <Flex align="center" gap={6}>
@@ -76,25 +82,21 @@ export default function Layout({ children }) {
         </Container>
       </Box>
 
-      <Container
-        as="main"
-        maxW="6xl"
-        px={4}
-        py={{ base: 8, md: 12 }}
-        position="relative"
-        zIndex={1}
-      >
-        {children}
-      </Container>
+      <Box as="main" flex="1" position="relative" zIndex={1}>
+        <Container maxW="6xl" px={4} py={{ base: 8, md: 12 }}>
+          {children}
+        </Container>
+      </Box>
 
       <Box
         as="footer"
         borderTop="1px solid"
         borderColor="whiteAlpha.200"
-        mt={12}
         py={8}
         bg="rgba(10,12,16,0.4)"
         backdropFilter="blur(6px)"
+        flexShrink={0}
+        mt="auto"
       >
         <Container maxW="6xl">
           <Flex

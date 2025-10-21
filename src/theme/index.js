@@ -43,6 +43,7 @@ const components = {
     baseStyle: {
       borderRadius: "12px",
       fontWeight: "semibold",
+      transition: "all 0.3s ease",
     },
     variants: {
       neon: {
@@ -54,7 +55,8 @@ const components = {
           "0 0 16px rgba(0,194,255,0.45), inset 0 0 8px rgba(0,194,255,0.2)",
         _hover: {
           bg: "rgba(0,194,255,0.08)",
-          transform: "translateY(-1px)",
+          transform: "translateY(-2px)",
+          boxShadow: "0 0 25px rgba(0,194,255,0.6)",
         },
         _active: {
           transform: "translateY(0)",
@@ -64,7 +66,11 @@ const components = {
         bg: "brand.500",
         color: "#0a0c10",
         boxShadow: "0 0 16px rgba(0,194,255,0.6)",
-        _hover: { bg: "brand.400" },
+        _hover: {
+          bg: "brand.400",
+          transform: "translateY(-2px)",
+          boxShadow: "0 0 25px rgba(0,194,255,0.8)",
+        },
       },
     },
     defaultProps: {
@@ -75,7 +81,12 @@ const components = {
   Link: {
     baseStyle: {
       color: "gray.200",
-      _hover: { color: "white", textDecoration: "none" },
+      transition: "all 0.3s ease",
+      _hover: {
+        color: "white",
+        textDecoration: "none",
+        textShadow: "0 0 8px rgba(255,255,255,0.3)",
+      },
     },
   },
   Card: {
@@ -85,6 +96,12 @@ const components = {
       backdropFilter: "blur(6px)",
       boxShadow: "0 0 24px rgba(0,194,255,0.08)",
       borderRadius: "16px",
+      transition: "all 0.3s ease",
+    },
+  },
+  Heading: {
+    baseStyle: {
+      fontWeight: "bold",
     },
   },
 };
