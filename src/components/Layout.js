@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -9,8 +10,17 @@ import {
   Icon,
   Spacer,
   Button,
+  IconButton,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaBars } from "react-icons/fa";
 import NeonGrid from "./NeonGrid";
 
 const navItems = [
@@ -26,6 +36,8 @@ const navItems = [
 ];
 
 export default function Layout({ children }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box
       minH="100dvh"
@@ -55,6 +67,8 @@ export default function Layout({ children }) {
             >
               NEON CAFE
             </Text>
+
+            {/* Desktop Navigation */}
             <HStack spacing={6} display={{ base: "none", md: "flex" }}>
               {navItems.map((item) => (
                 <Link
@@ -69,18 +83,74 @@ export default function Layout({ children }) {
                 </Link>
               ))}
             </HStack>
+
             <Spacer />
+
+            {/* Mobile Menu Button */}
+            <IconButton
+              display={{ base: "flex", md: "none" }}
+              onClick={onOpen}
+              variant="ghost"
+              color="gray.300"
+              _hover={{ color: "white" }}
+              aria-label="Open menu"
+              icon={<Icon as={FaBars} />}
+            />
+
+            {/* Reserve Button */}
             <Button
               as={NextLink}
               href="/reservations"
               size="sm"
               variant="solid"
+              display={{ base: "none", sm: "flex" }}
             >
               Reserve
             </Button>
           </Flex>
         </Container>
       </Box>
+
+      {/* Mobile Drawer */}
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent bg="rgba(10,12,16,0.95)" backdropFilter="blur(8px)">
+          <DrawerCloseButton color="gray.300" />
+          <DrawerHeader borderBottom="1px solid" borderColor="whiteAlpha.200">
+            <Text color="brand.500" fontWeight="bold">
+              NEON CAFE
+            </Text>
+          </DrawerHeader>
+          <DrawerBody pt={6}>
+            <VStack spacing={4} align="stretch">
+              {navItems.map((item) => (
+                <Link
+                  as={NextLink}
+                  key={item.href}
+                  href={item.href}
+                  fontSize="lg"
+                  color="gray.300"
+                  _hover={{ color: "white" }}
+                  py={2}
+                  onClick={onClose}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Button
+                as={NextLink}
+                href="/reservations"
+                size="lg"
+                variant="solid"
+                mt={4}
+                onClick={onClose}
+              >
+                Reserve Table
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
 
       <Box as="main" flex="1" position="relative" zIndex={1}>
         <Container maxW="6xl" px={4} py={{ base: 8, md: 12 }}>
