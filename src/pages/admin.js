@@ -37,7 +37,7 @@ const TYPES = [
   { key: "page", label: "Pages", icon: "📄" },
 ];
 
-function ItemForm({ value, onChange, onClose, isOpen }) {
+function ItemForm({ value, onChange, onClose, isOpen, onSave, editing }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
@@ -46,7 +46,9 @@ function ItemForm({ value, onChange, onClose, isOpen }) {
         border="1px solid"
         borderColor="whiteAlpha.200"
       >
-        <ModalHeader color="brand.500">Create/Edit Item</ModalHeader>
+        <ModalHeader color="brand.500">
+          {editing ? "Edit Item" : "Create Item"}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
           <VStack align="stretch" spacing={4}>
@@ -101,6 +103,19 @@ function ItemForm({ value, onChange, onClose, isOpen }) {
               }
               minH="100px"
             />
+
+            <HStack justify="flex-end" pt={4}>
+              <Button variant="ghost" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                variant="solid"
+                onClick={onSave}
+                isDisabled={!value.type || !value.title}
+              >
+                {editing ? "Update" : "Create"}
+              </Button>
+            </HStack>
           </VStack>
         </ModalBody>
       </ModalContent>
@@ -460,6 +475,8 @@ export default function AdminPage() {
           setEditing(null);
           setDraft({ type: filterType || "menu" });
         }}
+        onSave={save}
+        editing={editing}
         isOpen={isOpen}
       />
     </Flex>

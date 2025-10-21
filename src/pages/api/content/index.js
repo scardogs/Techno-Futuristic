@@ -2,7 +2,13 @@ import { connectToDatabase } from "@/lib/db";
 import Content from "@/models/Content";
 
 export default async function handler(req, res) {
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    return res.status(500).json({ error: "Database connection failed" });
+  }
+
   const { method } = req;
 
   try {
@@ -25,7 +31,7 @@ export default async function handler(req, res) {
 
     return res.status(405).json({ error: "Method Not Allowed" });
   } catch (e) {
-    console.error(e);
+    console.error("API Error:", e);
     return res.status(500).json({ error: "Server Error" });
   }
 }

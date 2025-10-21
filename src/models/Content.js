@@ -18,5 +18,13 @@ const ContentSchema = new mongoose.Schema(
 
 ContentSchema.index({ type: 1, slug: 1 });
 
-export default mongoose.models.Content ||
-  mongoose.model("Content", ContentSchema);
+// Ensure the model is only created once
+let Content;
+try {
+  Content = mongoose.models.Content || mongoose.model("Content", ContentSchema);
+} catch (error) {
+  // Handle case where mongoose is not available during build
+  Content = mongoose.model("Content", ContentSchema);
+}
+
+export default Content;
