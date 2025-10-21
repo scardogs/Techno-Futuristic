@@ -769,7 +769,7 @@ export default function Home() {
                       mb={6}
                       fontSize="lg"
                     >
-                      "{testimonial.text}"
+                      &ldquo;{testimonial.text}&rdquo;
                     </Text>
 
                     {/* Rating stars */}
@@ -1183,7 +1183,7 @@ export default function Home() {
                       {member.specialty}
                     </Text>
                     <Text color="gray.300" fontSize="sm" fontStyle="italic">
-                      "{member.quote}"
+                      &ldquo;{member.quote}&rdquo;
                     </Text>
 
                     {/* Subtle glow effect */}
@@ -1255,8 +1255,8 @@ export default function Home() {
                   </Heading>
                 </Flex>
                 <Text color="gray.300" fontSize="lg" mb={4}>
-                  We're expanding across the city. Find the cyber cafe closest
-                  to you.
+                  We&apos;re expanding across the city. Find the cyber cafe
+                  closest to you.
                 </Text>
                 <HStack spacing={4}>
                   <Button

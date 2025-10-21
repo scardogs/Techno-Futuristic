@@ -212,9 +212,9 @@ export default function AboutPage() {
               Join Our Community
             </Heading>
             <Text color="gray.300" fontSize="lg" maxW="2xl">
-              Whether you're coding the next big thing, creating digital art, or
-              simply seeking the perfect cup of coffee, Neon Cafe is your home
-              away from home in the digital age.
+              Whether you&apos;re coding the next big thing, creating digital
+              art, or simply seeking the perfect cup of coffee, Neon Cafe is
+              your home away from home in the digital age.
             </Text>
             <Flex gap={4} wrap="wrap" justify="center">
               <Button
