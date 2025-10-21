@@ -8,6 +8,8 @@ const seedData = [
     title: "Quantum Espresso",
     description: "Dense, chocolate finish",
     price: "$4.5",
+    image:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=200&fit=crop&crop=center",
     data: { category: "Signature Coffees" },
   },
   {
@@ -15,6 +17,8 @@ const seedData = [
     title: "Neon Latte",
     description: "Velvety microfoam, cyan sugar rim",
     price: "$5.5",
+    image:
+      "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&h=200&fit=crop&crop=center",
     data: { category: "Signature Coffees" },
   },
   {
@@ -22,6 +26,8 @@ const seedData = [
     title: "Hologram Cappuccino",
     description: "Balanced and bright",
     price: "$5",
+    image:
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop&crop=center",
     data: { category: "Signature Coffees" },
   },
   {
@@ -29,6 +35,8 @@ const seedData = [
     title: "Cryo Brew",
     description: "24h steep, ultra smooth",
     price: "$5",
+    image:
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop&crop=center",
     data: { category: "Cold Lab" },
   },
   {
@@ -36,6 +44,8 @@ const seedData = [
     title: "Magenta Fizz",
     description: "Nitro cold brew + raspberry",
     price: "$6",
+    image:
+      "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&h=200&fit=crop&crop=center",
     data: { category: "Cold Lab" },
   },
   {

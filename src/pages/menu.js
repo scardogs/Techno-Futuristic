@@ -9,6 +9,8 @@ import {
   Badge,
   Skeleton,
   SkeletonText,
+  Image,
+  Flex,
 } from "@chakra-ui/react";
 
 export default function MenuPage() {
@@ -164,13 +166,31 @@ export default function MenuPage() {
                 <VStack align="stretch" spacing={4}>
                   {cat.items.map((it) => (
                     <Box key={it.title || it._id}>
-                      <HStack justify="space-between" align="baseline">
-                        <Text fontWeight="semibold">{it.title}</Text>
-                        <Text color="brand.400">{it.price}</Text>
-                      </HStack>
-                      <Text fontSize="sm" color="gray.400">
-                        {it.desc || it.description}
-                      </Text>
+                      <Flex direction={{ base: "column", sm: "row" }} gap={3}>
+                        {it.image && (
+                          <Box flexShrink={0}>
+                            <Image
+                              src={it.image}
+                              alt={it.title || "Menu item"}
+                              width="80px"
+                              height="80px"
+                              objectFit="cover"
+                              borderRadius="8px"
+                              border="1px solid"
+                              borderColor="whiteAlpha.200"
+                            />
+                          </Box>
+                        )}
+                        <Box flex="1">
+                          <HStack justify="space-between" align="baseline">
+                            <Text fontWeight="semibold">{it.title}</Text>
+                            <Text color="brand.400">{it.price}</Text>
+                          </HStack>
+                          <Text fontSize="sm" color="gray.400">
+                            {it.desc || it.description}
+                          </Text>
+                        </Box>
+                      </Flex>
                     </Box>
                   ))}
                 </VStack>
